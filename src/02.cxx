@@ -1,18 +1,13 @@
-#include <string_view>
-#include <memory_resource>
+#include "lib.hxx"
+
 #include <string>
+#include <string_view>
+
+#include <backward.hpp>
 #include <fast_io.h>
 #include <fast_io_device.h>
+
 using namespace std;
-
-struct IVec2 {
-	int x{}, y{};
-	auto operator+=(IVec2 r) -> IVec2& { x += r.x; y += r.y; return *this; }
-	auto operator+(IVec2 r) -> IVec2 { return r += *this; } };
-
-	/*std::byte buf[16];
-	std::pmr::monotonic_buffer_resource pool(buf, sizeof(buf));
-	std::pmr::string dir(&pool);*/
 
 int main(int, char **argv) {
 	fast_io::ibuf_file fd{ string_view(argv[1]) };

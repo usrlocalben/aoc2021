@@ -10,10 +10,10 @@ MSVC_FLAGS = [
     "/WX",
     "/wd4324",  # structure padded due to alignment specifier
     "/wd4706",  # assignment in if expr
+    "/wd4267",  # conversion from 'size_t' to 'type', possible loss of data (backward-cpp)
     # "/wd4305",  # "truncation from 'double' to 'float'
     # "/wd4244",  # "conversion from 'double' to 'float' possible loss of data
     # "/wd4005",  # macro redefinition
-    # "/wd4267",  # conversion from 'size_t' to 'type', possible loss of data
     # "/wd4127",  # conditional expr is constant
     # "/wd4459",  # jsoncons
     # "/wd4505",  # unreferenced function with internal linkage removed
