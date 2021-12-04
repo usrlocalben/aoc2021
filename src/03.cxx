@@ -1,18 +1,5 @@
 #include "lib.hxx"
 
-#include <cassert>
-#include <algorithm>
-#include <array>
-#include <string>
-#include <string_view>
-#include <vector>
-
-#include <backward.hpp>
-#include <fast_io.h>
-#include <fast_io_device.h>
-
-using namespace std;
-
 int main(int, char **argv) {
 	fast_io::native_file_loader loader{ string_view(argv[1]) };
 	string_view data{ loader.data(), loader.data() + loader.size() };
@@ -25,8 +12,8 @@ int main(int, char **argv) {
 	// assert(w == 12);
 	// assert(h == 1000);
 
-	vector<int> nums(h);
-	vector<int> popcnt(w);
+	vi nums(h);
+	vi popcnt(w);
 	for (int y=0; y<h; ++y) {
 
 		int num{};

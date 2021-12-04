@@ -1,14 +1,5 @@
 #include "lib.hxx"
 
-#include <string>
-#include <string_view>
-
-#include <backward.hpp>
-#include <fast_io.h>
-#include <fast_io_device.h>
-
-using namespace std;
-
 int main(int, char **argv) {
 	fast_io::ibuf_file fd{ string_view(argv[1]) };
 	std::string dir;

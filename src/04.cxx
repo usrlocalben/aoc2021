@@ -1,9 +1,4 @@
-#include <backward.hpp>
-#include <fast_io.h>
-#include <fast_io_device.h>
 #include "lib.hxx"
-
-using namespace std;
 
 constexpr int DIM = 5;
 constexpr int zstride = DIM * DIM;

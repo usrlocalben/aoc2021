@@ -1,10 +1,4 @@
-#include <string_view>
-
-#include <backward.hpp>
-#include <fast_io.h>
-#include <fast_io_device.h>
-
-using namespace std;
+#include "lib.hxx"
 
 int main(int, char **argv) {
 	fast_io::ibuf_file input{ string_view{argv[1]} };
