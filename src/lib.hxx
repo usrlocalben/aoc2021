@@ -27,6 +27,8 @@ constexpr int64_t oo64{0x3f3f3f3f3f3f3f3f};
 struct IVec2 {
 	int x{}, y{};
 	auto operator+=(IVec2 r) -> IVec2& { x += r.x; y += r.y; return *this; }
+	auto operator==(IVec2 r) -> bool { return x==r.x && y==r.y; }
+	auto operator!=(IVec2 r) -> bool { return x!=r.x || y!=r.y; }
 	auto operator+(IVec2 r) -> IVec2 { return r += *this; } };
 
 struct IVec3 {
