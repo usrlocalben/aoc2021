@@ -2,6 +2,8 @@
 #include <array>
 #include <cassert>
 #include <charconv>
+#include <cstdint>
+#include <numeric>
 #include <string>
 #include <string_view>
 #include <unordered_map>
