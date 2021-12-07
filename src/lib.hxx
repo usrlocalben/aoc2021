@@ -26,6 +26,23 @@ using vii = vector<pair<int, int>>;
 constexpr int oo{0x3f3f3f3f};
 constexpr int64_t oo64{0x3f3f3f3f3f3f3f3f};
 
+// call func(x) for every valid int x found in text
+template <class FUNC>
+void do_nums(string_view text, FUNC&& func) {
+	const char *pstart = text.data();
+	const char *pend = pstart + text.size();
+	while (pstart < pend) {
+		int x;
+		auto res = std::from_chars(pstart, pend, x);
+		if (res.ec == std::errc{}) {
+			func(x); }
+		pstart = res.ptr + 1; }}
+
+template <class FUNC>
+void do_nums(fast_io::native_file_loader& loader, FUNC&& func) {
+	string_view sv{ loader.data(), loader.data() + loader.size() };
+	return do_nums(sv, func); }
+
 struct IVec2 {
 	int x{}, y{};
 	auto operator+=(IVec2 r) -> IVec2& { x += r.x; y += r.y; return *this; }

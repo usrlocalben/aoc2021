@@ -1,7 +1,7 @@
 #include "lib.hxx"
 
 int main(int, char **argv) {
-	fast_io::native_file_loader loader{ string_view(argv[1]) };
+	fast_io::native_file_loader loader{ fast_io::mnp::os_c_str(argv[1]) };
 	string_view data{ loader.data(), loader.data() + loader.size() };
 
 	const int w = data.find('\n');

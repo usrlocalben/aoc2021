@@ -4,15 +4,8 @@ int main(int, char **argv) {
 	vi nums{}; nums.reserve(1000);
 
 	fast_io::native_file_loader loader{ fast_io::mnp::os_c_str(argv[1]) };
-	string_view data{ loader.data(), loader.data() + loader.size() };
-	const char *pstart = data.data();
-	const char *pend = pstart + data.size();
-	while (pstart < pend) {
-		int x;
-		auto res = std::from_chars(pstart, pend, x);
-		if (res.ec == std::errc{}) {
-			nums.push_back(x); }
-		pstart = res.ptr + 1; }
+	do_nums(loader, [&](int x) {
+		nums.push_back(x); });
 
 	sort(begin(nums), end(nums));
 

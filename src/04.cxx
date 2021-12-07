@@ -4,7 +4,7 @@ constexpr int DIM = 5;
 constexpr int zstride = DIM * DIM;
 
 int main(int, char **argv) {
-	fast_io::native_file_loader loader{ string_view(argv[1]) };
+	fast_io::native_file_loader loader{ fast_io::mnp::os_c_str(argv[1]) };
 	string_view data{ loader.data(), loader.data() + loader.size() };
 
 	auto numstr = ConsumeLine(data);
@@ -13,30 +13,13 @@ int main(int, char **argv) {
 	vi card{};  card.reserve(100 * zstride);
 	umap<int, vi> nummap{};
 
-	// random nums
-	{
-		const char *pstart = numstr.data();
-		const char *pend = pstart + numstr.size();
-		while (pstart < pend) {
-			int x;
-			auto res = std::from_chars(pstart, pend, x);
-			// if (res.ec != std::errc{}) {
-			//	throw std::runtime_error("bad num"); }
-			pstart = res.ptr + 1;
-			nums.push_back(x); }}
+	do_nums(numstr, [&](int x) {
+		nums.push_back(x); });
 
-	// card nums
-	{
-		const char *pstart = data.data();
-		const char *pend = pstart + data.size();
-		while (pstart < pend) {
-			int x;
-			auto res = std::from_chars(pstart, pend, x);
-			if (res.ec == std::errc{}) {
-				auto idx = card.size();
-				card.push_back(x);
-				nummap[x].push_back(idx); }
-			pstart = res.ptr + 1; }}
+	do_nums(data, [&](int x) {
+		auto idx = card.size();
+		card.push_back(x);
+		nummap[x].push_back(idx); });
 
 	assert(card.size() % zstride == 0);
 

@@ -8,7 +8,7 @@ int main(int, char **argv) {
 	string_view data{ loader.data(), loader.data() + loader.size() };
 	fast_io::ibuffer_view input{ data };
 #else
-	fast_io::ibuf_file input{ string_view(argv[1]) };
+	fast_io::ibuf_file input{ fast_io::mnp::os_c_str(argv[1]) };
 #endif
 
 	// "491,392 -> 34,392"

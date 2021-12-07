@@ -1,7 +1,7 @@
 #include "lib.hxx"
 
 int main(int, char **argv) {
-	fast_io::ibuf_file fd{ string_view(argv[1]) };
+	fast_io::ibuf_file fd{ fast_io::mnp::os_c_str(argv[1]) };
 	std::string dir;
 	int m;
 

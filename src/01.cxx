@@ -1,7 +1,7 @@
 #include "lib.hxx"
 
 int main(int, char **argv) {
-	fast_io::ibuf_file input{ string_view{argv[1]} };
+	fast_io::ibuf_file input{ fast_io::mnp::os_c_str(argv[1]) };
 
 	int num;
 	int p1{}, prev{9999999};
