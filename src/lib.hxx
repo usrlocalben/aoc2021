@@ -62,6 +62,11 @@ auto ConsumeLine(string_view& text) -> string_view {
 	text = text.substr(pos + 1);
 	return line; }
 
+auto ConsumeWord(string_view& text, char delim=' ') -> string_view {
+	int pos = text.find(delim);
+	auto line = text.substr(0, pos);
+	text = text.substr(pos + 1);
+	return line; }
 /*
 auto ConsumeIntOrThrow(std::string_view& text) -> int {
 	int num;
