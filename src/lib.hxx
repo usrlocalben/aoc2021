@@ -3,6 +3,7 @@
 #include <cassert>
 #include <charconv>
 #include <cstdint>
+#include <deque>
 #include <numeric>
 #include <string>
 #include <string_view>
@@ -56,17 +57,19 @@ struct IVec3 {
 	auto operator+(IVec3 r) -> IVec3 { return r += *this; }
 	auto xy() -> IVec2 { return IVec2{ x, y }; } };
 
-auto ConsumeLine(string_view& text) -> string_view {
-	int pos = text.find('\n');
-	auto line = text.substr(0, pos);
-	text = text.substr(pos + 1);
-	return line; }
-
 auto ConsumeWord(string_view& text, char delim=' ') -> string_view {
 	int pos = text.find(delim);
 	auto line = text.substr(0, pos);
 	text = text.substr(pos + 1);
 	return line; }
+
+auto ConsumeLine(string_view& text) -> string_view {
+	return ConsumeWord(text, '\n'); }
+
+template <class T>
+auto Loaded(const T& c) -> bool {
+	return !c.empty(); }
+
 /*
 auto ConsumeIntOrThrow(std::string_view& text) -> int {
 	int num;
