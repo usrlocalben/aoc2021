@@ -57,11 +57,14 @@ struct IVec3 {
 	auto operator+(IVec3 r) -> IVec3 { return r += *this; }
 	auto xy() -> IVec2 { return IVec2{ x, y }; } };
 
-auto ConsumeWord(string_view& text, char delim=' ') -> string_view {
+auto ConsumeToken(string_view& text, char delim) -> string_view {
 	int pos = text.find(delim);
 	auto line = text.substr(0, pos);
 	text = text.substr(pos + 1);
 	return line; }
+
+auto ConsumeWord(string_view& text, char delim=' ') -> string_view {
+	return ConsumeToken(text, delim); }
 
 auto ConsumeLine(string_view& text) -> string_view {
 	return ConsumeWord(text, '\n'); }
