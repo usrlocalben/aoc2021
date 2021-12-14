@@ -1,0 +1,49 @@
+NNCB
+
+N + nN + nC + cB
+
+N N C B
+ C B H
+
+N   N   C   B
+  C   B   H
+ B C B B B C
+
+
+
+ NN
+
+NN,1 = C1:N2
+NC,1 = B1:C1:N1
+CB,1 = B1:C1:H1
+
+C1:N2 + B1:C1:N1-1 + B1:C1-1:H1
+=
+B2:C2:H1:N2
+
+
+actual
+NNH
+
+BBCCHNN
+B2:C2:H1:N2  GOOD
+
+----------------------
+NN,2 = ????
+NN,2 = NC,1 + CN,1 - C:1
+
+NN,0 = N:2
+NC,0 = N:1,C1
+CB,0 = B:1,C1
+
+(NN,0) - N:1 + (NC,0) - C:1 + (CB,0)
+
+B1,C1,N2
+
+41 levels
+100 pairs
+10 slots
+8 int64t
+
+= ~350KB data
+5MB with [26] slots
