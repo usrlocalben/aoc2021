@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <deque>
 #include <numeric>
+#include <queue>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -47,9 +48,11 @@ void do_nums(fast_io::native_file_loader& loader, FUNC&& func) {
 struct IVec2 {
 	int x{}, y{};
 	auto operator+=(IVec2 r) -> IVec2& { x += r.x; y += r.y; return *this; }
-	auto operator==(IVec2 r) -> bool { return x==r.x && y==r.y; }
-	auto operator!=(IVec2 r) -> bool { return x!=r.x || y!=r.y; }
-	auto operator+(IVec2 r) -> IVec2 { return r += *this; } };
+	auto operator==(IVec2 r) const -> bool { return x==r.x && y==r.y; }
+	auto operator!=(IVec2 r) const -> bool { return x!=r.x || y!=r.y; }
+	auto operator+(IVec2 r) const -> IVec2 { return r += *this; }
+	auto operator/(int r) const -> IVec2 { return IVec2{ x/r, y/r }; }
+	auto operator%(int r) const -> IVec2 { return IVec2{ x%r, y%r }; } };
 
 struct IVec3 {
 	int x{}, y{}, z{};
@@ -70,7 +73,7 @@ auto ConsumeLine(string_view& text) -> string_view {
 	return ConsumeWord(text, '\n'); }
 
 template <class T>
-auto Loaded(const T& c) -> bool {
+auto loaded(const T& c) -> bool {
 	return !c.empty(); }
 
 /*
