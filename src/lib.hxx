@@ -25,6 +25,7 @@ using pii = pair<int, int>;
 using vii = vector<pair<int, int>>;
 #define fi first
 #define se second
+#define ALL(x) begin(x), end(x)
 constexpr int oo{0x3f3f3f3f};
 constexpr int64_t oo64{0x3f3f3f3f3f3f3f3f};
 
@@ -75,6 +76,42 @@ auto ConsumeLine(string_view& text) -> string_view {
 template <class T>
 auto loaded(const T& c) -> bool {
 	return !c.empty(); }
+
+
+auto Unhex(char ch) -> int {
+	if ('0' <= ch && ch <= '9') {
+		return ch - '0'; }
+	return ch - 'A' + 10; }
+
+
+struct HexBitStream {
+	string_view data_;
+	int idx_{};
+
+	HexBitStream(string_view data) : data_(data) {}
+
+	auto size() const -> int {
+		return data_.size() * 4 - idx_; }
+
+	auto At(int i) const -> int {
+		char ch = Unhex(data_[i / 4]);
+		int sel = 8 >> (i % 4);
+		return (ch & sel) != 0;}
+
+	auto Peek(int n) const -> int {
+		int ti = idx_;
+		int out{};
+		while (n--) {
+			out <<= 1;
+			out |= At(ti++); }
+		return out; }
+
+	auto Consume(int n) -> int {
+		int out = Peek(n);
+		idx_ += n;
+		return out; } };
+
+void indenterr(int n) { for (int i=0; i<n; ++i) perr(" "); }
 
 /*
 auto ConsumeIntOrThrow(std::string_view& text) -> int {
