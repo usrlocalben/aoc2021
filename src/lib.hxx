@@ -113,6 +113,13 @@ struct HexBitStream {
 
 void indenterr(int n) { for (int i=0; i<n; ++i) perr(" "); }
 
+auto TS(int x) -> int { return x * (x+1) / 2; }
+
+// point / AABB collision
+auto Hit(IVec2 tl, IVec2 br, IVec2 p) -> bool {
+	return tl.x <= p.x && p.x <= br.x 
+		&& br.y <= p.y && p.y <= tl.y; }
+
 /*
 auto ConsumeIntOrThrow(std::string_view& text) -> int {
 	int num;
