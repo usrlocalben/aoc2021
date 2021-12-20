@@ -46,6 +46,11 @@ void do_nums(fast_io::native_file_loader& loader, FUNC&& func) {
 	string_view sv{ loader.data(), loader.data() + loader.size() };
 	return do_nums(sv, func); }
 
+template <class T>
+auto Mod(T a, T b) -> T {
+	T tmp = a % b;
+	return tmp < 0 ? tmp + b : tmp; }
+
 struct IVec2 {
 	int x{}, y{};
 	auto operator+=(IVec2 r) -> IVec2& { x += r.x; y += r.y; return *this; }
@@ -58,8 +63,63 @@ struct IVec2 {
 struct IVec3 {
 	int x{}, y{}, z{};
 	auto operator+=(IVec3 r) -> IVec3& { x += r.x; y += r.y; z += r.z; return *this; }
-	auto operator+(IVec3 r) -> IVec3 { return r += *this; }
-	auto xy() -> IVec2 { return IVec2{ x, y }; } };
+	auto operator+(IVec3 r) const -> IVec3 { return r += *this; }
+	auto operator-(IVec3 r) const -> IVec3 { return IVec3{ x-r.x, y-r.y, z-r.z }; }
+	auto xy() const -> IVec2 { return IVec2{ x, y }; } };
+
+
+auto Dot(IVec3 a, IVec3 b) -> int {
+	return a.x*b.x + a.y*b.y + a.z*b.z; }
+
+struct IMat3 {
+	IVec3 r0;
+	IVec3 r1;
+	IVec3 r2;
+
+	IMat3(int a00, int a01, int a02,
+		  int a10, int a11, int a12,
+		  int a20, int a21, int a22) :
+		r0{ a00, a01, a02 },
+		r1{ a10, a11, a12 },
+		r2{ a20, a21, a22 } {}
+
+	auto operator*(IVec3 v) -> IVec3 {
+		return { Dot(r0, v), Dot(r1, v), Dot(r2, v) };}};
+
+constexpr array<int, 4> ICOS{{ 1, 0, -1, 0 }};
+constexpr array<int, 4> ISIN{{ 0, 1, 0, -1 }};
+auto RotateX(IVec3 a, int t) -> IVec3 {
+	if (t == 0) return a;
+	t = Mod(t, 4);
+	IMat3 m{ 1, 0, 0,
+		     0, ICOS[t], -ISIN[t],
+			 0, ISIN[t], ICOS[t] };
+	return m * a; }
+auto RotateY(IVec3 a, int t) -> IVec3 {
+	if (t == 0) return a;
+	t = Mod(t, 4);
+	IMat3 m{ ICOS[t], 0, ISIN[t],
+		     0, 1, 0,
+			 -ISIN[t], 0, ICOS[t] };
+	return m * a; }
+auto RotateZ(IVec3 a, int t) -> IVec3 {
+	if (t == 0) return a;
+	t = Mod(t, 4);
+	IMat3 m{ ICOS[t], -ISIN[t], 0,
+		     ISIN[t], ICOS[t], 0,
+			 0, 0, 1 };
+	return m * a; }
+
+
+auto ConsumeBlock(string_view& text) -> string_view {
+	int pos = text.find(string_view{"\n\n"});
+	if (pos == string_view::npos) {
+		auto line = text;
+		text = text.substr(0, 0);
+		return line; }
+	auto line = text.substr(0, pos+1);
+	text = text.substr(pos + 2);
+	return line; }
 
 auto ConsumeToken(string_view& text, char delim) -> string_view {
 	int pos = text.find(delim);
