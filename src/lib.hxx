@@ -67,9 +67,21 @@ struct IVec3 {
 	auto operator-(IVec3 r) const -> IVec3 { return IVec3{ x-r.x, y-r.y, z-r.z }; }
 	auto xy() const -> IVec2 { return IVec2{ x, y }; } };
 
+auto Midpoint(IVec3 a, IVec3 b) -> IVec3 {
+	using std::midpoint;
+	return IVec3{ midpoint(a.x, b.x), midpoint(a.y, b.y), midpoint(a.z, b.z) }; }
+
+auto operator+ (IVec3 a, int b) -> IVec3 { return IVec3{ a.x + b, a.y + b, a.z + b }; }
+auto operator==(IVec3 a, IVec3 b) -> bool { return a.x==b.x && a.y==b.y && a.z==b.z; }
+auto operator!=(IVec3 a, IVec3 b) -> bool { return a.x!=b.x || a.y!=b.y || a.z!=b.z; }
+auto operator<=(IVec3 a, IVec3 b) -> bool { return a.x<=b.x && a.y<=b.y && a.z<=b.z; }
 
 auto Dot(IVec3 a, IVec3 b) -> int {
 	return a.x*b.x + a.y*b.y + a.z*b.z; }
+auto vmin(IVec3 a, IVec3 b) -> IVec3 {
+	return IVec3{ min(a.x, b.x), min(a.y, b.y), min(a.z, b.z) }; }
+auto vmax(IVec3 a, IVec3 b) -> IVec3 {
+	return IVec3{ max(a.x, b.x), max(a.y, b.y), max(a.z, b.z) }; }
 
 struct IMat3 {
 	IVec3 r0;
@@ -111,6 +123,46 @@ auto RotateZ(IVec3 a, int t) -> IVec3 {
 	return m * a; }
 
 
+// aabb half-open range volumes
+struct Vol { IVec3 l, h; };
+auto operator!=(Vol a, Vol b) -> bool { return a.l!=b.l || a.h!=b.h; }
+auto operator==(Vol a, Vol b) -> bool { return a.l==b.l && a.h==b.h; }
+auto Encloses(const Vol& a, const Vol& b) -> bool {
+	// true if a contains b
+	// a and b are closed-interval!
+	return a.l <= b.l && b.h <= a.h; }
+auto Volume(Vol v) -> int64_t {
+	auto d = v.h - v.l;
+	return int64_t(d.x) * d.y * d.z; }
+
+auto Divide(Vol v) -> array<Vol, 8> {
+	const auto mid = Midpoint(v.l, v.h);
+	return { {
+		{ { mid.x, mid.y, mid.z }, { v.h.x, v.h.y, v.h.z } },  // back  top right
+		{ { mid.x, mid.y, v.l.z }, { v.h.x, v.h.y, mid.z } },  // front top right
+		{ { mid.x, v.l.y, mid.z }, { v.h.x, mid.y, v.h.z } },  // back  bot right
+		{ { mid.x, v.l.y, v.l.z }, { v.h.x, mid.y, mid.z } },  // front bot right
+		{ { v.l.x, mid.y, mid.z }, { mid.x, v.h.y, v.h.z } },  // back  top left
+		{ { v.l.x, mid.y, v.l.z }, { mid.x, v.h.y, mid.z } },  // front top left
+		{ { v.l.x, v.l.y, mid.z }, { mid.x, mid.y, v.h.z } },  // back  bot left
+		{ { v.l.x, v.l.y, v.l.z }, { mid.x, mid.y, mid.z } },  // front bot left
+	} }; }
+
+auto Divide(Vol v, IVec3 mid) -> array<Vol, 8> {
+	// const auto mid = Midpoint(v.l, v.h);
+	return { {
+		{ { mid.x, mid.y, mid.z }, { v.h.x, v.h.y, v.h.z } },  // back  top right
+		{ { mid.x, mid.y, v.l.z }, { v.h.x, v.h.y, mid.z } },  // front top right
+		{ { mid.x, v.l.y, mid.z }, { v.h.x, mid.y, v.h.z } },  // back  bot right
+		{ { mid.x, v.l.y, v.l.z }, { v.h.x, mid.y, mid.z } },  // front bot right
+		{ { v.l.x, mid.y, mid.z }, { mid.x, v.h.y, v.h.z } },  // back  top left
+		{ { v.l.x, mid.y, v.l.z }, { mid.x, v.h.y, mid.z } },  // front top left
+		{ { v.l.x, v.l.y, mid.z }, { mid.x, mid.y, v.h.z } },  // back  bot left
+		{ { v.l.x, v.l.y, v.l.z }, { mid.x, mid.y, mid.z } },  // front bot left
+	} }; }
+
+
+// string/parse tools
 auto ConsumeBlock(string_view& text) -> string_view {
 	int pos = text.find(string_view{"\n\n"});
 	if (pos == string_view::npos) {
