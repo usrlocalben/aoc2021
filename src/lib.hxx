@@ -57,6 +57,7 @@ struct IVec2 {
 	auto operator==(IVec2 r) const -> bool { return x==r.x && y==r.y; }
 	auto operator!=(IVec2 r) const -> bool { return x!=r.x || y!=r.y; }
 	auto operator+(IVec2 r) const -> IVec2 { return r += *this; }
+	auto operator-(IVec2 r) const -> IVec2 { return IVec2{x-r.x, y-r.y}; }
 	auto operator/(int r) const -> IVec2 { return IVec2{ x/r, y/r }; }
 	auto operator%(int r) const -> IVec2 { return IVec2{ x%r, y%r }; } };
 
