@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <deque>
 #include <numeric>
+#include <optional>
 #include <queue>
 #include <string>
 #include <string_view>
@@ -17,6 +18,7 @@
 #include <fast_io_device.h>
 
 using namespace std;
+using namespace fast_io::io;
 
 #define umap unordered_map
 #define uset unordered_set

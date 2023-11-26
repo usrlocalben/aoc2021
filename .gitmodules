@@ -1,6 +1,6 @@
 [submodule "3rdparty/fast_io"]
 	path = 3rdparty/fast_io
-	url = https://github.com/tearosccebe/fast_io
+	url = https://github.com/cppfastio/fast_io
 [submodule "3rdparty/backward-cpp"]
 	path = 3rdparty/backward-cpp
 	url = https://github.com/bombela/backward-cpp
