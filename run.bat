@@ -1,4 +1,4 @@
-bazel build -c opt //src:01 //src:02 //src:03 //src:04 //src:05 //src:06 //src:07 //src:08 //src:09 //src:10 //src:11 //src:12 //src:13 //src:14 //src:15 //src:16 //src:17 //src:18 //src:19 //src:20 //src:21 //src:22 //src:23
+bazel build -c opt //src:01 //src:02 //src:03 //src:04 //src:05 //src:06 //src:07 //src:08 //src:09 //src:10 //src:11 //src:12 //src:13 //src:14 //src:15 //src:16 //src:17 //src:18 //src:19 //src:20 //src:21 //src:22 //src:23 //src:24
 bazel-bin\src\01.exe data\01\input.txt
 bazel-bin\src\02.exe data\02\input.txt
 bazel-bin\src\03.exe data\03\input.txt
@@ -22,3 +22,4 @@ bazel-bin\src\20.exe data\20\input.txt
 bazel-bin\src\21.exe data\21\input.txt 
 bazel-bin\src\22.exe data\22\input.txt 
 bazel-bin\src\23.exe data\23\input.txt 
+bazel-bin\src\24.exe data\24\input.txt 
