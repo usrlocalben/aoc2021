@@ -58,10 +58,16 @@ struct IVec2 {
 	auto operator+=(IVec2 r) -> IVec2& { x += r.x; y += r.y; return *this; }
 	auto operator==(IVec2 r) const -> bool { return x==r.x && y==r.y; }
 	auto operator!=(IVec2 r) const -> bool { return x!=r.x || y!=r.y; }
-	auto operator+(IVec2 r) const -> IVec2 { return r += *this; }
+	auto operator+(IVec2 r) const -> IVec2 { r += *this; return r; }
 	auto operator-(IVec2 r) const -> IVec2 { return IVec2{x-r.x, y-r.y}; }
 	auto operator/(int r) const -> IVec2 { return IVec2{ x/r, y/r }; }
+	auto operator%(IVec2 r) const -> IVec2 { return IVec2{ x % r.x, y % r.y }; }
 	auto operator%(int r) const -> IVec2 { return IVec2{ x%r, y%r }; } };
+
+struct IVec2Hash {
+	auto operator()(const IVec2& d) const -> size_t {
+		auto ax = static_cast<int64_t>(d.x)<<32 | d.y;
+		return hash<int64_t>{}(ax); }};
 
 struct IVec3 {
 	int x{}, y{}, z{};
